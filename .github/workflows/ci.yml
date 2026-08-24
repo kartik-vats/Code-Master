@@ -15,29 +15,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Get repository code
       - name: Checkout code
         uses: actions/checkout@v5
 
-      # 2. Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
           node-version: 24
           cache: npm
 
-      # 3. Install dependencies
       - name: Install dependencies
         run: npm ci
 
-      # 4. Check code quality
       - name: Run ESLint
         run: npm run lint
 
-      # 5. Check TypeScript
       - name: Type check
         run: npx tsc --noEmit
 
-      # 6. Build application
+      - name: Check data folder for empty files
+        run: |
+          if find data -type f -empty | grep -q .; then
+            echo "❌ Empty files found in data folder:"
+            find data -type f -empty
+            exit 1
+          fi
+
+          echo "✅ No empty files found in data folder"
+
       - name: Build application
         run: npm run build
