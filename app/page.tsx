@@ -8,14 +8,16 @@ import { stackqueueQuestions } from "@/data/stackqueue";
 import { dpQuestions } from "@/data/dp";
 import { linkedListQuestions } from "@/data/linkedList";
 import { greedyQuestions } from "@/data/greedy";
+import { thirdLVL } from "@/data/3rdLVL";
 
 export default function DSATracker() {
+
   return (
     <div className="min-h-screen bg-black text-white p-8 space-y-8">
       <QuestionSection
         title="Array Questions"
         questions={arrayQuestions}
-      />
+      />    
 
       <QuestionSection
         title="Binary Tree Questions"
@@ -43,7 +45,10 @@ export default function DSATracker() {
             title="Linked List Questions"
             questions={linkedListQuestions}
           />
-          
+          <QuestionSection
+            title="Third Level Questions"
+            questions={thirdLVL}
+          />
           <QuestionSection
             title="Greedy Questions"
             questions={greedyQuestions}
