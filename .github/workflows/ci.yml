@@ -15,33 +15,69 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # -------------------------
+      # Checkout
+      # -------------------------
       - name: Checkout code
         uses: actions/checkout@v5
 
+      # -------------------------
+      # Node.js
+      # -------------------------
       - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
           node-version: 24
           cache: npm
 
+      # -------------------------
+      # Dependencies
+      # -------------------------
       - name: Install dependencies
         run: npm ci
 
+      # -------------------------
+      # Lint
+      # -------------------------
       - name: Run ESLint
         run: npm run lint
 
-      - name: Type check
+      # -------------------------
+      # TypeScript
+      # -------------------------
+      - name: TypeScript type check
         run: npx tsc --noEmit
 
-      - name: Check data folder for empty files
+      # -------------------------
+      # Empty data files
+      # -------------------------
+      - name: Check for empty data files
         run: |
-          if find data -type f -empty | grep -q .; then
-            echo "❌ Empty files found in data folder:"
-            find data -type f -empty
+          empty_files=$(find data -type f -empty)
+
+          if [ -n "$empty_files" ]; then
+            echo "❌ Empty files found:"
+            echo "$empty_files"
             exit 1
           fi
 
-          echo "✅ No empty files found in data folder"
+          echo "✅ No empty data files found"
 
+      # -------------------------
+      # Tests
+      # -------------------------
+      - name: Run tests
+        run: npm test
+
+      # -------------------------
+      # Dependency security
+      # -------------------------
+      - name: Security audit
+        run: npm audit --audit-level=high
+        continue-on-error: true
+
+      # -------------------------
+      # Production build
+      # -------------------------
       - name: Build application
         run: npm run build
