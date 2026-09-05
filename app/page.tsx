@@ -9,11 +9,19 @@ import { dpQuestions } from "@/data/dp";
 import { linkedListQuestions } from "@/data/linkedList";
 import { greedyQuestions } from "@/data/greedy";
 import { thirdLVL } from "@/data/3rdLVL";
-
+import { secondLVL } from "@/data/2ndLVL";
 export default function DSATracker() {
 
   return (
     <div className="min-h-screen bg-black text-white p-8 space-y-8">
+      <QuestionSection
+            title="2nd Level Questions"
+            questions={secondLVL}
+          />
+      <QuestionSection
+            title="3rd Level Questions"
+            questions={thirdLVL}
+          />
       <QuestionSection
         title="Array Questions"
         questions={arrayQuestions}
